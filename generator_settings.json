@@ -1,0 +1,7 @@
+{
+  "n": 200,
+  "initial_size": 10,
+  "step": 20,
+  "min_value": 0,
+  "max_value": 1000
+}
