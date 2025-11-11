@@ -1,0 +1,62 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\citation{knuth1998art,cormen2009introduction}
+\citation{knuth1998art}
+\citation{hoare1962quicksort}
+\citation{cormen2009introduction}
+\citation{sedgewick1977analysis,mcilroy1993engineering}
+\citation{cormen2009introduction}
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{section.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-A}}Motivation}{1}{subsection.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {I-B}}Contributions}{1}{subsection.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {II}Background and Related Work}{1}{section.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Sorting Algorithm Complexity}{1}{subsection.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Empirical Studies}{1}{subsection.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Methodology}{2}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Experimental Setup}{2}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Dataset Generation}{2}{subsection.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}1}Synthetic Random Data}{2}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-B}2}NVIDIA Stock Market Data}{2}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Performance Metrics}{2}{subsection.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Experimental Results}{2}{section.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Individual Algorithm Performance}{2}{subsection.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}1}Bubble Sort}{2}{subsubsection.4.1.1}\protected@file@percent }
+\newlabel{eq:bubble_regression}{{4}{2}{Bubble Sort}{equation.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {I}{\ignorespaces Performance Statistics on Synthetic Random Data}}{2}{table.1}\protected@file@percent }
+\newlabel{tab:individual_stats}{{I}{2}{Performance Statistics on Synthetic Random Data}{table.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}2}Quick Sort}{2}{subsubsection.4.1.2}\protected@file@percent }
+\newlabel{eq:quick_regression}{{5}{2}{Quick Sort}{equation.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-A}3}Bucket Sort}{2}{subsubsection.4.1.3}\protected@file@percent }
+\newlabel{eq:bucket_regression}{{6}{2}{Bucket Sort}{equation.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Bubble Sort vs Quick Sort Comparison}{2}{subsection.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Bucket Sort vs Quick Sort: The Range Factor}{2}{subsection.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}1}Bounded-Range Data (Synthetic)}{2}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-C}2}Wide-Range Data (NVIDIA Stock)}{2}{subsubsection.4.3.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Runtime performance of (left) Bubble Sort, (middle) Quick Sort, and (right) Bucket Sort on synthetic random data with regression curves.}}{3}{figure.1}\protected@file@percent }
+\newlabel{fig:individual}{{1}{3}{Runtime performance of (left) Bubble Sort, (middle) Quick Sort, and (right) Bucket Sort on synthetic random data with regression curves}{figure.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Bubble Sort vs Quick Sort performance on NVIDIA stock market data. Quick Sort maintains efficient scaling while Bubble Sort exhibits prohibitive quadratic growth.}}{3}{figure.2}\protected@file@percent }
+\newlabel{fig:bubble_quick_nvidia}{{2}{3}{Bubble Sort vs Quick Sort performance on NVIDIA stock market data. Quick Sort maintains efficient scaling while Bubble Sort exhibits prohibitive quadratic growth}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Bucket Sort vs Quick Sort on bounded-range synthetic data ($k=1001$). Bucket Sort's linear complexity outperforms Quick Sort's $O(n \log n)$ when range is bounded.}}{3}{figure.3}\protected@file@percent }
+\newlabel{fig:bucket_quick_synthetic}{{3}{3}{Bucket Sort vs Quick Sort on bounded-range synthetic data ($k=1001$). Bucket Sort's linear complexity outperforms Quick Sort's $O(n \log n)$ when range is bounded}{figure.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Bucket Sort vs Quick Sort on wide-range NVIDIA stock data ($k \approx 60,000$). Quick Sort outperforms when value range greatly exceeds dataset size.}}{3}{figure.4}\protected@file@percent }
+\newlabel{fig:bucket_quick_nvidia}{{4}{3}{Bucket Sort vs Quick Sort on wide-range NVIDIA stock data ($k \approx 60,000$). Quick Sort outperforms when value range greatly exceeds dataset size}{figure.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Discussion}{3}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}When to Use Bubble Sort}{3}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Bucket Sort: When Range Matters}{3}{subsection.5.2}\protected@file@percent }
+\bibcite{knuth1998art}{1}
+\bibcite{cormen2009introduction}{2}
+\bibcite{hoare1962quicksort}{3}
+\bibcite{sedgewick1977analysis}{4}
+\bibcite{mcilroy1993engineering}{5}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Quick Sort as General-Purpose Solution}{4}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Practical Implications}{4}{subsection.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Threats to Validity}{4}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Internal Validity}{4}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}External Validity}{4}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Construct Validity}{4}{subsection.6.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusion and Future Work}{4}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Future Directions}{4}{subsection.7.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{4}{section*.2}\protected@file@percent }
+\gdef \@abspage@last{4}
