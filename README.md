@@ -365,6 +365,8 @@ pdflatex sorting_analysis_paper.tex  # Run twice for references
 
 The author thanks the open-source community for Python, NumPy, SciPy, Matplotlib, and yfinance libraries that enabled this research.
 
+**Note on AI Assistance:** While AI tools (GPT-4/GPT-5) were used to assist with grammar correction, text polishing, and formatting, all core ideas, experimental design, implementation, analysis, and conclusions are the original work of the author.
+
 ---
 
 ## References
