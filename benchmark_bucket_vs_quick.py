@@ -1,3 +1,18 @@
+"""
+===========================================================
+Bucket Sort vs Quick Sort Performance Comparison
+===========================================================
+
+Author: Gong Da
+Student ID: 11536511
+Last Updated: 2025-11-12
+Purpose: This program compares the performance of Bucket Sort and Quick Sort algorithms
+         on synthetic random datasets. It evaluates how the value range (k) relative to 
+         dataset size (n) affects the performance of these algorithms, providing empirical 
+         guidance for algorithm selection based on data characteristics.
+===========================================================
+"""
+
 import argparse
 import csv
 import json

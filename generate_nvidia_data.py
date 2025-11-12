@@ -1,3 +1,18 @@
+"""
+===========================================================
+NVIDIA Stock Data Generator for Sorting Algorithm Analysis
+===========================================================
+
+Author: Gong Da
+Student ID: 11536511
+Last Updated: 2025-11-12
+Purpose: This program fetches real-world NVIDIA (NVDA) stock market data from Yahoo Finance
+         and generates datasets for benchmarking sorting algorithms. It creates multiple 
+         datasets with varying sizes using actual stock prices and trading volumes to 
+         evaluate sorting algorithm performance on financial time-series data.
+===========================================================
+"""
+
 import argparse
 import json
 from pathlib import Path

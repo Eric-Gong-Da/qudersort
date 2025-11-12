@@ -1,3 +1,18 @@
+"""
+===========================================================
+Sorting Algorithms Performance Analysis Tool
+===========================================================
+
+Author: Gong Da
+Student ID: 11536511
+Last Updated: 2025-11-12
+Purpose: This program benchmarks and analyzes the performance of three sorting algorithms:
+         Bubble Sort (O(n²)), Quick Sort (O(n log n)), and Bucket Sort (O(n+k)).
+         It evaluates these algorithms on both synthetic random datasets and real-world 
+         NVIDIA (NVDA) stock market data to provide empirical guidance for algorithm selection.
+===========================================================
+"""
+
 import argparse
 import csv
 import json
@@ -35,38 +50,110 @@ def benchmark(
     algorithm: Callable[[List[int]], List[int]],
     name: str
 ) -> List[Tuple[int, int, float]]:
+    """
+    Benchmarks a sorting algorithm on a collection of datasets.
+    
+    Args:
+        datasets (List[List[int]]): A list of datasets to sort
+        algorithm (Callable[[List[int]], List[int]]): The sorting algorithm to benchmark
+        name (str): Name of the algorithm for reporting purposes
+        
+    Returns:
+        List[Tuple[int, int, float]]: List of (dataset_index, dataset_size, execution_time) tuples
+        
+    Algorithm:
+        1. For each dataset in the collection:
+           a. Create a copy to avoid modifying the original
+           b. Measure execution time of the sorting algorithm
+           c. Verify correctness by comparing with Python's built-in sort
+           d. Record results and show progress
+    """
+    # Initialize list to store benchmark results
+    # Each entry will be (dataset_index, dataset_size, execution_time)
     results = []
+    
+    # Get total number of datasets for progress tracking
     total = len(datasets)
     
+    # Iterate through each dataset to benchmark the algorithm
     for idx, dataset in enumerate(datasets):
+        # Create a copy of the dataset to avoid modifying the original
+        # This ensures each algorithm runs on the same input data
         original = dataset.copy()
         
+        # Record start time for execution time measurement
+        # perf_counter provides the highest available resolution timing
         start = perf_counter()
+        
+        # Execute the sorting algorithm on the dataset copy
         sorted_result = algorithm(original)
+        
+        # Calculate execution time by taking difference from start time
         elapsed = perf_counter() - start
         
+        # Verify correctness by comparing with Python's built-in sorted function
+        # This ensures our implementations are working correctly
         expected = sorted(dataset)
         assert sorted_result == expected, f"{name} failed on dataset {idx}"
         
+        # Store the benchmark results as (dataset_index, dataset_size, execution_time)
         results.append((idx, len(dataset), elapsed))
         
+        # Display progress bar to show benchmark status
+        # This is helpful for long-running benchmarks
         progress = (idx + 1) / total
         bar_length = 40
         filled = int(bar_length * progress)
         bar = '█' * filled + '░' * (bar_length - filled)
         print(f'\r  [{bar}] {idx + 1}/{total} ({progress * 100:.1f}%)', end='', flush=True)
     
+    # Print newline to move cursor to next line after progress bar
     print()
+    
+    # Return the collected benchmark results
     return results
 
 
 def n_squared(n, a, b):
+    """
+    Mathematical model for O(n²) complexity.
+    
+    Args:
+        n: Input size (dataset size)
+        a: Coefficient for n² term
+        b: Constant term (overhead)
+        
+    Returns:
+        Predicted execution time for input size n
+    """
     return a * n**2 + b
 
 def n_log_n(n, a, b):
+    """
+    Mathematical model for O(n log n) complexity.
+    
+    Args:
+        n: Input size (dataset size)
+        a: Coefficient for n*log(n) term
+        b: Constant term (overhead)
+        
+    Returns:
+        Predicted execution time for input size n
+    """
     return a * n * np.log(n) + b
 
 def n_plus_k(n, a, b):
+    """
+    Mathematical model for O(n+k) complexity where k is treated as a constant.
+    
+    Args:
+        n: Input size (dataset size)
+        a: Coefficient for n term
+        b: Constant term (represents k, the value range)
+        
+    Returns:
+        Predicted execution time for input size n
+    """
     return a * n + b
 
 
@@ -75,24 +162,58 @@ def fit_complexity(
     times: List[float],
     complexity_type: str
 ) -> Tuple[np.ndarray, Callable, str]:
+    """
+    Fits empirical timing data to theoretical complexity models.
+    
+    Args:
+        sizes (List[int]): Dataset sizes
+        times (List[float]): Measured execution times
+        complexity_type (str): Theoretical complexity to fit ("O(n²)", "O(n log n)", or "O(n+k)")
+        
+    Returns:
+        Tuple[np.ndarray, Callable, str]: 
+            - Optimized parameters from curve fitting
+            - Fitted function that can predict execution time
+            - Human-readable formula string
+        
+    Algorithm:
+        1. Convert lists to NumPy arrays for mathematical operations
+        2. Select appropriate model function based on complexity_type
+        3. Use scipy's curve_fit to find optimal parameters
+        4. Create a lambda function with the fitted parameters
+        5. Generate a human-readable formula string
+    """
+    # Convert Python lists to NumPy arrays for efficient mathematical operations
     n = np.array(sizes)
     t = np.array(times)
     
+    # Select the appropriate complexity model and fit the data
     if complexity_type == "O(n²)":
+        # Fit data to quadratic model: T(n) = a*n² + b
         popt, _ = curve_fit(n_squared, n, t, maxfev=10000)
+        # Create a function with the fitted parameters
         fitted_func = lambda x: n_squared(x, *popt)
+        # Generate human-readable formula string with scientific notation
         formula = f"T(n) = {popt[0]:.2e}·n² + {popt[1]:.2e}"
     elif complexity_type == "O(n log n)":
+        # Fit data to n*log(n) model: T(n) = a*n*log(n) + b
         popt, _ = curve_fit(n_log_n, n, t, maxfev=10000)
+        # Create a function with the fitted parameters
         fitted_func = lambda x: n_log_n(x, *popt)
+        # Generate human-readable formula string with scientific notation
         formula = f"T(n) = {popt[0]:.2e}·n·log(n) + {popt[1]:.2e}"
     elif complexity_type == "O(n+k)":
+        # Fit data to linear model: T(n) = a*n + b (where b represents k, the value range)
         popt, _ = curve_fit(n_plus_k, n, t, maxfev=10000)
+        # Create a function with the fitted parameters
         fitted_func = lambda x: n_plus_k(x, *popt)
+        # Generate human-readable formula string with scientific notation
         formula = f"T(n) = {popt[0]:.2e}·n + {popt[1]:.2e}"
     else:
+        # Handle invalid complexity type
         raise ValueError(f"Unknown complexity type: {complexity_type}")
     
+    # Return optimized parameters, fitted function, and formula string
     return popt, fitted_func, formula
 
 
@@ -101,37 +222,86 @@ def plot_results(
     complexity_map: dict[str, str],
     plots_dir: str
 ) -> Tuple[dict[str, str], dict[str, str]]:
+    """
+    Generates performance plots for all sorting algorithms with regression curves.
+    
+    Args:
+        all_results (dict[str, List[Tuple[int, int, float]]]): Benchmark results for each algorithm
+        complexity_map (dict[str, str]): Maps algorithm names to their theoretical complexity
+        plots_dir (str): Directory to save the generated plots
+        
+    Returns:
+        Tuple[dict[str, str], dict[str, str]]: 
+            - Dictionary mapping algorithm names to plot file paths
+            - Dictionary mapping algorithm names to regression formulas
+            
+    Algorithm:
+        1. Create output directory if it doesn't exist
+        2. For each algorithm:
+           a. Extract dataset sizes and execution times
+           b. Fit complexity model to the data
+           c. Generate smooth curve for visualization
+           d. Create plot with actual data points and regression curve
+           e. Save plot to file
+    """
+    # Create the output directory if it doesn't exist
     os.makedirs(plots_dir, exist_ok=True)
+    
+    # Initialize dictionaries to store plot paths and regression formulas
     plot_paths = {}
     formulas = {}
     
+    # Process each algorithm's results
     for name, results in all_results.items():
-        sizes = [r[1] for r in results]
-        times = [r[2] for r in results]
+        # Extract dataset sizes and execution times from results
+        # results contains tuples of (dataset_index, dataset_size, execution_time)
+        sizes = [r[1] for r in results]  # Dataset sizes
+        times = [r[2] for r in results]  # Execution times
         
+        # Get the theoretical complexity type for this algorithm
+        # Default to O(n²) if not specified
         complexity_type = complexity_map.get(name, "O(n²)")
+        
+        # Fit the appropriate complexity model to the empirical data
+        # Returns optimized parameters, fitted function, and formula string
         _, fitted_func, formula = fit_complexity(sizes, times, complexity_type)
         formulas[name] = formula
         
+        # Generate smooth data points for the regression curve
+        # This creates a visually appealing curve rather than connecting data points
         n_smooth = np.linspace(min(sizes), max(sizes), 200)
         t_smooth = fitted_func(n_smooth)
         
+        # Create the plot
         plt.figure(figsize=(10, 6))
+        
+        # Plot actual data points as scatter plot
         plt.plot(sizes, times, marker="o", linestyle="", markersize=8, label="Actual Data", alpha=0.7)
+        
+        # Plot the fitted regression curve
         plt.plot(n_smooth, t_smooth, linestyle="-", linewidth=2, label=f"Regression: {complexity_type}", color="red")
+        
+        # Add axis labels and title
         plt.xlabel("Dataset Size", fontsize=12)
         plt.ylabel("Time (seconds)", fontsize=12)
         plt.title(f"{name} Performance", fontsize=14)
+        
+        # Add legend and grid for better visualization
         plt.legend()
         plt.grid(True, alpha=0.3)
         
+        # Generate filename and full file path
         filename = f"{name.lower().replace(' ', '_')}.png"
         filepath = os.path.join(plots_dir, filename)
+        
+        # Save the plot to file and close the figure to free memory
         plt.savefig(filepath, dpi=100, bbox_inches="tight")
         plt.close()
         
+        # Store the plot path for return value
         plot_paths[name] = filepath
     
+    # Return dictionaries of plot paths and regression formulas
     return plot_paths, formulas
 
 

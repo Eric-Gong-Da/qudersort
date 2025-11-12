@@ -24,7 +24,7 @@ s1153651@s.eduhk.hk}}
 \maketitle
 
 \begin{abstract}
-Sorting algorithms are fundamental to computer science, with varying time complexities affecting their practical performance across different data characteristics. This paper presents a comprehensive empirical analysis of three classical sorting algorithms: Bubble Sort, Quick Sort, and Bucket Sort. The author evaluates these algorithms on both synthetic random datasets and real-world NVIDIA (NVDA) stock market data spanning over two decades. The experimental results demonstrate that while Bubble Sort exhibits predictable $O(n^2)$ behavior making it impractical for large datasets, the choice between Quick Sort $O(n \log n)$ and Bucket Sort $O(n+k)$ critically depends on the data value range. The author provides regression analysis and empirical formulas for runtime prediction, showing that Bucket Sort excels when the value range $k$ is bounded and comparable to dataset size $n$, while Quick Sort maintains superior performance on wide-range data typical of financial applications. The findings provide practical guidance for algorithm selection in real-world sorting tasks.
+Sorting algorithms are fundamental to computer science, with varying time complexities affecting their practical performance across different data characteristics. This paper presents a comprehensive empirical analysis of three classical sorting algorithms: Bubble Sort, Quick Sort, and Bucket Sort. The author evaluates these algorithms on both synthetic random datasets and real-world NVIDIA (NVDA) stock market data spanning over two decades. The experimental results demonstrate that while Bubble Sort exhibits predictable $O(n^2)$ behavior making it impractical for large datasets, the choice between Quick Sort $O(n \log n)$ and Bucket Sort $O(n+k)$ critically depends on the data value range. The author provides regression analysis and empirical formulas for runtime prediction, showing that Bucket Sort excels when the value range $k$ is bounded and comparable to dataset size $n$, while Quick Sort maintains superior performance on wide-range data typical of financial applications. These findings are consistent with previous empirical studies \cite{opendsa2023} and extend the analysis to real-world financial data with unique characteristics. The results provide practical guidance for algorithm selection in real-world sorting tasks, with particular emphasis on the relationship between value range and dataset size.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -43,6 +43,8 @@ The motivation for this study stems from two key observations:
     \item Financial and time-series data exhibit unique properties (wide value ranges, temporal patterns) that may challenge conventional wisdom about sorting algorithm performance.
 \end{enumerate}
 
+Previous empirical studies \cite{opendsa2023} have compared sorting algorithms but primarily focused on synthetic data or specific application domains. Our work extends these studies by analyzing performance on financial time-series data with inherently wide value ranges.
+
 \subsection{Contributions}
 The main contributions are:
 \begin{itemize}
@@ -50,6 +52,7 @@ The main contributions are:
     \item Regression-based runtime prediction formulas fitted to experimental data
     \item Comparative evaluation using real-world NVIDIA stock market data (6,743 trading days)
     \item Practical guidelines for algorithm selection based on data range characteristics
+    \item Extension of previous empirical studies \cite{opendsa2023} to real-world financial data
 \end{itemize}
 
 \section{Background and Related Work}
@@ -64,7 +67,7 @@ Sorting algorithms can be categorized by their time complexity \cite{knuth1998ar
 \textbf{Linear Time:} Bucket Sort \cite{cormen2009introduction} achieves $O(n+k)$ time when the value range $k$ is known and bounded. However, performance degrades when $k \gg n$.
 
 \subsection{Empirical Studies}
-Previous empirical evaluations \cite{sedgewick1977analysis, mcilroy1993engineering} have focused primarily on synthetic data or specific application domains. This work extends these studies by analyzing performance on financial time-series data with inherently wide value ranges.
+Previous empirical evaluations \cite{sedgewick1977analysis, mcilroy1993engineering} have focused primarily on synthetic data or specific application domains. More recent studies \cite{opendsa2023} have compared various sorting algorithms and found that optimized Quick Sort is the best overall performer for most datasets. Our work extends these studies by analyzing performance on financial time-series data with inherently wide value ranges.
 
 \section{Methodology}
 
@@ -242,6 +245,8 @@ Our empirical results confirm that \textbf{Bubble Sort should never be used in p
     \item Specialized scenarios requiring stable, in-place sorting with strict memory constraints
 \end{itemize}
 
+As noted in standard algorithm analysis \cite{cormen2009introduction}, Bubble Sort's quadratic time complexity makes it impractical for any real-world applications where performance matters. Its only advantages are simplicity of implementation and stability, but these are outweighed by the massive performance penalty.
+
 \subsection{Bucket Sort: When Range Matters}
 Bucket Sort's $O(n+k)$ complexity creates a critical decision point. It excels when:
 
@@ -261,6 +266,8 @@ Bucket Sort's $O(n+k)$ complexity creates a critical decision point. It excels w
     \item Geographic coordinates: wide latitude/longitude ranges
 \end{itemize}
 
+Our findings align with theoretical analysis that Bucket Sort is most effective when the input is uniformly distributed over a range \cite{geeksforgeeks2023}. The algorithm's performance is highly dependent on the relationship between the value range $k$ and the dataset size $n$. When $k$ is much larger than $n$, the overhead of managing buckets outweighs the benefits.
+
 \subsection{Quick Sort as General-Purpose Solution}
 Quick Sort emerges as the robust general-purpose choice because:
 \begin{enumerate}
@@ -270,7 +277,12 @@ Quick Sort emerges as the robust general-purpose choice because:
     \item Well-optimized implementations in standard libraries
 \end{enumerate}
 
-The logarithmic factor grows slowly: even at $n=10^6$, $\log_2(n) \approx 20$, making the overhead modest compared to linear $O(n)$ operations.
+The logarithmic factor grows slowly: even at $n=10^6$, $\log_2(n) \approx 20$, making the overhead modest compared to linear $O(n)$ operations. As noted in empirical studies \cite{opendsa2023}, Quick Sort consistently outperforms other algorithms for general-purpose sorting, particularly on large datasets with random distributions.
+
+\subsection{Comparative Analysis with Previous Studies}
+Our results are consistent with previous empirical comparisons of sorting algorithms. OpenDSA research \cite{opendsa2023} found that optimized Quick Sort is the best overall performer for most datasets, while Bucket Sort can be faster for uniformly distributed data. However, our study extends these findings by analyzing real-world financial data, which has unique characteristics that affect algorithm performance.
+
+The performance gap between Bubble Sort and Quick Sort (72-166$\times$) is consistent with theoretical expectations. As noted in various algorithm analysis resources \cite{geeksforgeeks2023}, Bubble Sort's quadratic time complexity makes it unsuitable for datasets larger than a few dozen elements.
 
 \subsection{Practical Implications}
 For practitioners, the author recommends:
@@ -280,6 +292,8 @@ For practitioners, the author recommends:
     \item \textbf{Avoid Bubble Sort} except for educational or trivially small datasets
     \item \textbf{Profile real data} before optimizing, as constants in regression formulas vary by implementation and hardware
 \end{itemize}
+
+Our empirical analysis provides concrete guidance for algorithm selection based on data characteristics. The key insight is that the ratio $k/n$ is critical for choosing between Bucket Sort and Quick Sort, with Bucket Sort being preferred when $k \lesssim n \log n$.
 
 \section{Threats to Validity}
 
@@ -303,7 +317,7 @@ This paper presented a comprehensive empirical analysis of three sorting algorit
     \item \textbf{Data characteristics matter}: the ratio $k/n$ is critical for choosing between Bucket Sort and Quick Sort
 \end{enumerate}
 
-Empirical regression formulas (Equations \ref{eq:bubble_regression}-\ref{eq:bucket_regression}) enable runtime prediction for algorithm selection. The analysis of NVIDIA stock data demonstrates real-world implications for financial computing.
+Empirical regression formulas (Equations \ref{eq:bubble_regression}-\ref{eq:bucket_regression}) enable runtime prediction for algorithm selection. The analysis of NVIDIA stock data demonstrates real-world implications for financial computing. These findings are consistent with previous empirical studies \cite{opendsa2023} and extend the analysis to real-world financial data with unique characteristics.
 
 \subsection{Future Directions}
 Future work should explore:
@@ -337,6 +351,12 @@ R. Sedgewick, ``The analysis of Quicksort programs,'' \emph{Acta Informatica}, v
 
 \bibitem{mcilroy1993engineering}
 P. M. McIlroy, ``Optimistic sorting and information theoretic complexity,'' in \emph{Proceedings of the Fourth Annual ACM-SIAM Symposium on Discrete Algorithms}, 1993, pp. 467--474.
+
+\bibitem{geeksforgeeks2023}
+GeeksforGeeks, ``Bucket Sort vs Quick Sort,'' \emph{GeeksforGeeks}, 2023. [Online]. Available: https://www.geeksforgeeks.org/dsa/bucket-sort-vs-quick-sort/
+
+\bibitem{opendsa2023}
+OpenDSA, ``An Empirical Comparison of Sorting Algorithms,'' \emph{OpenDSA}, 2023. [Online]. Available: https://opendsa-server.cs.vt.edu/ODSA/Books/CS3/html/SortingEmpirical.html
 
 \end{thebibliography}
 

@@ -1,3 +1,17 @@
+"""
+===========================================================
+Dataset Generation Tool for Sorting Algorithm Analysis
+===========================================================
+
+Author: Gong Da
+Student ID: 11536511
+Last Updated: 2025-11-12
+Purpose: This program generates synthetic datasets for benchmarking sorting algorithms.
+         It creates multiple datasets with varying sizes and random integer values
+         to evaluate the performance characteristics of different sorting algorithms.
+===========================================================
+"""
+
 import argparse
 import json
 import random

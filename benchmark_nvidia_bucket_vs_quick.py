@@ -1,3 +1,19 @@
+"""
+===========================================================
+Bucket Sort vs Quick Sort on NVIDIA Stock Data
+===========================================================
+
+Author: Gong Da
+Student ID: 11536511
+Last Updated: 2025-11-12
+Purpose: This program compares the performance of Bucket Sort and Quick Sort algorithms
+         on real-world NVIDIA (NVDA) stock market data. It demonstrates how the wide 
+         value range (k) of financial data affects the performance of Bucket Sort 
+         compared to Quick Sort, providing insights into algorithm selection for 
+         real-world applications with unbounded data ranges.
+===========================================================
+"""
+
 import argparse
 import csv
 import json

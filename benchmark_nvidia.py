@@ -1,3 +1,18 @@
+"""
+===========================================================
+NVIDIA Stock Data Sorting Algorithm Benchmark
+===========================================================
+
+Author: Gong Da
+Student ID: 11536511
+Last Updated: 2025-11-12
+Purpose: This program benchmarks Bubble Sort and Quick Sort algorithms on real-world 
+         NVIDIA (NVDA) stock market data. It evaluates the performance of these 
+         algorithms on financial time-series data with wide value ranges to 
+         demonstrate practical implications for algorithm selection in real-world applications.
+===========================================================
+"""
+
 import argparse
 import csv
 import json
